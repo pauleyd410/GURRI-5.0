@@ -5,37 +5,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.Swerve.shooter;
 import frc.robot.subsystems.Shooter;
 
-public class ShooterCommand extends Command {
-  /** Creates a new Shooter. */
- private Shooter shoots;
+public class ShootCommand extends Command {
+  /** Creates a new ShootCommand. */
+  private final Shooter shooterSubsystem;
+  private final double speed;
   
-  public ShooterCommand(Shooter shoot) {
-    this.shoots = shoot;
-    addRequirements(shoots);
+  public ShootCommand(Shooter shooterSubsystem, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.shooterSubsystem = shooterSubsystem;
+    this.speed = speed;
+    addRequirements(shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     shoots.shooterMotorL.set(1);
-    if(shoots.shooterMotorLeftEncoder.getVelocity() >= 100) {
-      shoots.feederMotor.set(.5);
-    }
+    shooterSubsystem.setMotors(.55);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shoots.shooterMotorL.set(0);
+    shooterSubsystem.setMotors(0);
   }
 
   // Returns true when the command should end.

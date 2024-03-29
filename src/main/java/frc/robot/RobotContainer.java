@@ -7,17 +7,18 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.Auton;
 import frc.robot.commands.Auto;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Climber;
 
 
 
@@ -41,10 +42,10 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve(); 
   private final Auton autonChooser = new Auton(s_Swerve);
   private final Auto m_auto = new Auto(s_Swerve);
-  private final Shooter shoot = new Shooter();
-  private final ShooterCommand shootCommand = new ShooterCommand(shoot);
+  private final Shooter shooter = new Shooter();
   private final Intake intake = new Intake();
-  private final IntakeCommand intakeCommand = new IntakeCommand(intake);
+  private final Climber climber = new Climber();
+
 
  
 
@@ -60,8 +61,12 @@ public class RobotContainer {
         ()->false,//() -> robotCentric.getAsBoolean(),
         () -> halfSpeed.getAsBoolean()));
 
-      configureButtonBIndings();
+         climber.setDefaultCommand(new ClimbCommand(
+        climber,
+        () -> codriver.getRightY(),
+        () -> codriver.getLeftY()));
 
+      configureButtonBIndings();
   }
   //robotCentric.get();
   /**
@@ -70,21 +75,18 @@ public class RobotContainer {
    * 
    */
   public void configureButtonBIndings() {
-    //codriver.rightBumper().whileTrue(shootCommand);
-    //codriver.b().whileTrue(intake.forwardIntake()).whileFalse(intake.Stop());
-    //codriver.x().whileTrue(intake.reverseIntake()).whileFalse(intake.Stop());
-    //codriver.y().onTrue(new MoveArm(pBars, .25));
+    codriver.rightBumper().whileTrue(new ShootCommand(shooter, 1));
+    codriver.b().onTrue(new IntakeCommand(intake, 1.0));
+    //climber.setDefaultCommand(climber.Climb(() -> codriver.getLeftY()));
+   // climber.setDefaultCommand(climber.RightClimber(() -> codriver.getRightY()));
     //codriver.back().onTrue(new MoveArm(pBars, -1));
     //codriver.rightBumper().whileTrue(ShooterCommand.Shoot()).whileFalse(ShooterCommand.Stop());
     //codriver.leftBumper().whileTrue(shooter.ReverseShoot()).whileFalse(shooter.Stop());
     //codriver.povUp().whileTrue(extender.extendUp()).whileFalse(extender.Stop());
     //codriver.povDown().whileTrue(extender.extendDown()).whileFalse(extender.Stop());
     //codriver.povRight().whileTrue(flap.openFlap()).whileFalse(flap.Stop());
-    //codriver.povLeft().whileTrue(flap.closeFlap()).whileFalse(flap.Stop());
-
-    
+    //codriver.povLeft().whileTrue(flap.closeFlap()).whileFalse(flap.Stop()); 
   }
-
 public Command getAutonomousCommand() {
    return m_auto;
   }

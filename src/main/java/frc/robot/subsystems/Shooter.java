@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Swerve.feed;
 import frc.robot.Constants.Swerve.shooter;
@@ -14,23 +15,38 @@ import frc.robot.Constants.Swerve.shooter;
 
 public class Shooter extends SubsystemBase {
 
-    public CANSparkMax shooterMotorL;
-    public CANSparkMax shooterMotorR;
-    public CANSparkMax feederMotor;
-    public RelativeEncoder shooterMotorLeftEncoder;
+    private final CANSparkMax shooterMotorL = new CANSparkMax(shooter.shooterMotorLeft, MotorType.kBrushless);
+    private final CANSparkMax shooterMotorR = new CANSparkMax(shooter.shooterMotorRight, MotorType.kBrushless);
+    private final CANSparkMax feederMotor = new CANSparkMax(feed.feedMotor, MotorType.kBrushless);
+    private final RelativeEncoder shooterMotorLeftEncoder = shooterMotorL.getEncoder();
 
-    public Shooter() {
-         shooterMotorL = new CANSparkMax(shooter.shooterMotorLeft, MotorType.kBrushless);
-         shooterMotorR = new CANSparkMax(shooter.shooterMotorRight, MotorType.kBrushless);
-         feederMotor = new CANSparkMax(feed.feedMotor, MotorType.kBrushless);
-         shooterMotorLeftEncoder = shooterMotorL.getEncoder();
-}
+    public Shooter() { 
+            } 
+
+    public void setMotors(double speed) {
+        shooterMotorR.set(speed);
+        if (shooterMotorLeftEncoder.getVelocity() >= 3000) {
+            feederMotor.set(1);
+        }
+        else {
+            feederMotor.set(0);
+        }
+        }
+    
+    /**public Command shootForward() {
+        return run(()
+        -> shooterMotorR.set(1));
+        }
+    public Command stopShooter() {
+        return run(()
+        -> shooterMotorL.set(0));
+    }
+    */
+    
     @Override
     public void periodic() {
-    //SmartDashboard.putNumber("Red", detectedColor.red);
-    //SmartDashboard.putNumber("Green", detectedColor.green);
-    //SmartDashboard.putNumber("Blue", detectedColor.blue);
-    //SmartDashboard.putNumber("Pivot Encoder", pivotMotoRelativeEncoder.getPosition());
+    SmartDashboard.putNumber("Left Shoot Motor Velocity", shooterMotorLeftEncoder.getVelocity());
 }
 }
+
 

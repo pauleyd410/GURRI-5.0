@@ -145,8 +145,8 @@ public final class Constants {
         
 
         public static final class intake {
-            public static final int intakeMotorLeft = 14; //Set up correct ID
-            public static final int intakeMotorRight = 13; //Set up correct ID
+            public static final int intakeMotorBot = 13; //Set up correct ID
+            public static final int intakeMotorTop = 14; //Set up correct ID
         }
 
         public static final class feed {
@@ -156,7 +156,12 @@ public final class Constants {
         public static final class shooter {
             public static final int shooterMotorLeft = 17; //Set up correct ID
             public static final int shooterMotorRight = 16; //Set up correct ID, only needs to be init because follower
-        }   
+        } 
+
+        public static final class climbers {
+            public static final int climberL = 41;
+            public static final int climberR = 40;
+        }
     }
 
     public static final class AutoConstants {

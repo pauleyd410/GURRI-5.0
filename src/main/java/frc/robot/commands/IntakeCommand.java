@@ -10,13 +10,14 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeCommand extends Command {
   /** Creates a new IntakeCommand. */
-  private Intake intakes;
-  DigitalInput intakeLimitSwitch = new DigitalInput(0);//Change to correct channel
+  private Intake intakeSubsystem;
+  private final double speed;
+  private final DigitalInput intakeLimitSwitch = new DigitalInput(9);
   
-
-  public IntakeCommand(Intake intake) {
-    this.intakes = intake;
-    addRequirements(intakes);
+  public IntakeCommand(Intake intakeSubsystem, double speed) {
+    this.intakeSubsystem = intakeSubsystem;
+    this.speed = speed;
+    addRequirements(intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,18 +30,18 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakes.intakeMotorL.set(.3);
+    intakeSubsystem.setMotors(1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakes.intakeMotorL.set(0);
+    intakeSubsystem.setMotors(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intakeLimitSwitch.get();
+    return !intakeLimitSwitch.get();
   }
 }
