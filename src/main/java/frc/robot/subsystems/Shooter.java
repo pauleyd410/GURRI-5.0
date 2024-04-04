@@ -17,7 +17,7 @@ public class Shooter extends SubsystemBase {
 
     private final CANSparkMax shooterMotorL = new CANSparkMax(shooter.shooterMotorLeft, MotorType.kBrushless);
     private final CANSparkMax shooterMotorR = new CANSparkMax(shooter.shooterMotorRight, MotorType.kBrushless);
-    private final CANSparkMax feederMotor = new CANSparkMax(feed.feedMotor, MotorType.kBrushless);
+    public final CANSparkMax feederMotor = new CANSparkMax(feed.feedMotor, MotorType.kBrushless);
     private final RelativeEncoder shooterMotorLeftEncoder = shooterMotorL.getEncoder();
 
     public Shooter() { 
@@ -25,23 +25,14 @@ public class Shooter extends SubsystemBase {
 
     public void setMotors(double speed) {
         shooterMotorR.set(speed);
-        if (shooterMotorLeftEncoder.getVelocity() >= 3000) {
+          if (shooterMotorLeftEncoder.getVelocity() >= 4000) {
             feederMotor.set(1);
         }
         else {
             feederMotor.set(0);
-        }
+        } 
         }
     
-    /**public Command shootForward() {
-        return run(()
-        -> shooterMotorR.set(1));
-        }
-    public Command stopShooter() {
-        return run(()
-        -> shooterMotorL.set(0));
-    }
-    */
     
     @Override
     public void periodic() {

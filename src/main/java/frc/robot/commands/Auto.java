@@ -8,14 +8,15 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
 public class Auto extends SequentialCommandGroup {
 
-  public Auto(Swerve swerve) {
+  public Auto(Swerve swerve, Shooter shoot) {
     super (
-      new TeleopSwerve(swerve, () -> -.40, () -> 0, () -> 0, () -> true, () -> false)
-      .withTimeout(2)
+      new TeleopSwerve(swerve, () -> .30, () -> 0, () -> 0, () -> true, () -> false)
+      .withTimeout(1), new ShootCommand(shoot, 1)
     );
   }
 }

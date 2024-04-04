@@ -41,8 +41,8 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private final Swerve s_Swerve = new Swerve(); 
   private final Auton autonChooser = new Auton(s_Swerve);
-  private final Auto m_auto = new Auto(s_Swerve);
   private final Shooter shooter = new Shooter();
+  private final Auto m_auto = new Auto(s_Swerve, shooter);
   private final Intake intake = new Intake();
   private final Climber climber = new Climber();
 
