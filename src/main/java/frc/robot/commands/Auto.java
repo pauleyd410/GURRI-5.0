@@ -14,9 +14,9 @@ import frc.robot.subsystems.Swerve;
 public class Auto extends SequentialCommandGroup {
 
   public Auto(Swerve swerve, Shooter shoot) {
-    super (
-      new TeleopSwerve(swerve, () -> .30, () -> 0, () -> 0, () -> true, () -> false)
-      .withTimeout(1), new ShootCommand(shoot, 1)
+    super ( new ShootCommand(shoot, 1).withTimeout(1.5),
+      new TeleopSwerve(swerve, () -> .4, () -> 0, () -> 0, () -> true, () -> false)
+      .withTimeout(3)
     );
   }
 }
